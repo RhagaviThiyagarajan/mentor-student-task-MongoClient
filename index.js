@@ -49,13 +49,28 @@ app.get('/',(req,res)=>
 
 
 
+
+async function createConnection() {
+    const client = new mongoClient(process.env.MONGO_URL);
+
+    console.log("Mongodb is connected ✌😊");
+    }
+   
+  
+  
+  const client =  createConnection();
+  app.use(express.json());
+
+   
+
+
 // get all the details
 
 app.get('/student',async(req,res)=>
 {
     try{
         console.log('included cors');
-        let client=await mongoClient.connect(MONGO_URL);
+        let client=await mongoClient.connect(process.env.MONGO_URL);
         let db=client.db('data');
         let data= await db.collection('mentorstudenttask')
         .find().toArray();
@@ -82,7 +97,7 @@ app.get('/student',async(req,res)=>
   {
     try{
         console.log('included cors');
-        let client=await mongoClient.connect(MONGO_URL);
+        let client=await mongoClient.connect(process.env.MONGO_URL);
         let db=client.db('data');
         let data=await db.collection('mentorstudenttask')
         .find().toArray();
@@ -110,10 +125,15 @@ app.get('/student',async(req,res)=>
 
   //creating student
 
-  app.post('/create-student',async(req,res)=>
-  {
+  app.post('/create-student',async (req,res)=>
+  
+
+
+    {
+      
+    
     try{
-        let client=await mongoClient.connect(MONGO_URL);
+        let client=await mongoClient.connect(process.env.MONGO_URL);
         let db=client.db('data');
         let check=await db.collection('mentorstudenttask')
         .insertOne(
@@ -128,6 +148,7 @@ app.get('/student',async(req,res)=>
             res.status(200).json(
                 {
                     message:'student added Successfully'
+                   
                 }
             );
         }
@@ -149,15 +170,19 @@ app.get('/student',async(req,res)=>
             }
         );
     }
-  });
-
+   
+});
 
   //create mentor
   app.post('/create-mentor',async (req,res)=>
   {
+  
+ 
+
+
     try
     {
-        let client=mongoClient.connect('MONGO_URL');
+        let client=mongoClient.connect('process.env.MONGO_URL');
         let db=client.db('data');
         let check=await db.collection('mentorstudenttask').MONGO_URLinsertOne(
             {
@@ -197,4 +222,4 @@ app.get('/student',async(req,res)=>
   });
 
 
-
+ 
